@@ -85,7 +85,7 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `PersonEntity` (`createdAt` TEXT NOT NULL, `updatedAt` TEXT NOT NULL, `avatar` TEXT NOT NULL, `title` TEXT NOT NULL, `body` TEXT NOT NULL, `id` TEXT NOT NULL, PRIMARY KEY (`createdAt`))');
+            'CREATE TABLE IF NOT EXISTS `PersonEntity` (`createdAt` TEXT NOT NULL, `updatedAt` TEXT NOT NULL, `objectId` TEXT NOT NULL, `title` TEXT NOT NULL, `body` TEXT NOT NULL, `id` TEXT NOT NULL, PRIMARY KEY (`createdAt`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -110,7 +110,7 @@ class _$PersonDao extends PersonDao {
             (PersonEntity item) => <String, Object?>{
                   'createdAt': item.createdAt,
                   'updatedAt': item.updatedAt,
-                  'avatar': item.avatar,
+                  'objectId': item.objectId,
                   'title': item.title,
                   'body': item.body,
                   'id': item.id
@@ -130,7 +130,7 @@ class _$PersonDao extends PersonDao {
         mapper: (Map<String, Object?> row) => PersonEntity(
             createdAt: row['createdAt'] as String,
             updatedAt: row['updatedAt'] as String,
-            avatar: row['avatar'] as String,
+            objectId: row['objectId'] as String,
             title: row['title'] as String,
             body: row['body'] as String,
             id: row['id'] as String));
@@ -143,16 +143,17 @@ class _$PersonDao extends PersonDao {
   }
 
   @override
-  Future<PersonEntity?> findPersonById(String id) async {
-    return _queryAdapter.query('SELECT * FROM PersonEntity WHERE id = ?1',
+  Future<List<PersonEntity?>> findPersonById(String objectId) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM PersonEntity WHERE objectId = ?1',
         mapper: (Map<String, Object?> row) => PersonEntity(
             createdAt: row['createdAt'] as String,
             updatedAt: row['updatedAt'] as String,
-            avatar: row['avatar'] as String,
+            objectId: row['objectId'] as String,
             title: row['title'] as String,
             body: row['body'] as String,
             id: row['id'] as String),
-        arguments: [id]);
+        arguments: [objectId]);
   }
 
   @override

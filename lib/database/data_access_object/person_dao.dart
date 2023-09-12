@@ -9,8 +9,8 @@ abstract class PersonDao {
   @Query('SELECT name FROM PersonEntity')
   Future<List<String>> findAllPeopleName();
 
-  @Query('SELECT * FROM PersonEntity WHERE id = :id')
-  Future<PersonEntity?> findPersonById(String id);
+  @Query('SELECT * FROM PersonEntity WHERE objectId = :objectId')
+  Future<List<PersonEntity?>> findPersonById(String objectId);
 
   @insert
   Future<void> insertPerson(PersonEntity person);

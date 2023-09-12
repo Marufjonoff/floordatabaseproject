@@ -43,6 +43,7 @@ dependencies:
   bloc_concurrency: ^0.2.2
   freezed: ^2.4.1
   sqflite: ^2.3.0
+  uuid: ^4.0.0
 
 dev_dependencies:
   flutter_test:
