@@ -21,8 +21,8 @@ class _AddScreenState extends State<AddScreen> {
 
   bool loading = false;
 
-  TextEditingController titleController = TextEditingController();
-  TextEditingController bodyController = TextEditingController();
+  TextEditingController titleController = TextEditingController(text: "title ");
+  TextEditingController bodyController = TextEditingController(text: "body ");
 
   @override
   void initState() {
@@ -60,8 +60,8 @@ class _AddScreenState extends State<AddScreen> {
     await personDao.insertPerson(personEntity);
 
     loading = false;
-    titleController.clear();
-    bodyController.clear();
+    titleController.text = "title ";
+    bodyController.text = "body ";
     setState(() {});
   }
 
@@ -90,8 +90,9 @@ class _AddScreenState extends State<AddScreen> {
           ],
         ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
+        onPressed: () {
           addPerson(database, objectId);
         },
         backgroundColor: Colors.blue,

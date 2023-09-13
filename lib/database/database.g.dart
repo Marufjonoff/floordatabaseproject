@@ -114,6 +114,18 @@ class _$PersonDao extends PersonDao {
                   'title': item.title,
                   'body': item.body,
                   'id': item.id
+                }),
+        _personEntityUpdateAdapter = UpdateAdapter(
+            database,
+            'PersonEntity',
+            ['createdAt'],
+            (PersonEntity item) => <String, Object?>{
+                  'createdAt': item.createdAt,
+                  'updatedAt': item.updatedAt,
+                  'objectId': item.objectId,
+                  'title': item.title,
+                  'body': item.body,
+                  'id': item.id
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -124,17 +136,7 @@ class _$PersonDao extends PersonDao {
 
   final InsertionAdapter<PersonEntity> _personEntityInsertionAdapter;
 
-  @override
-  Future<List<PersonEntity>> findAllPeople() async {
-    return _queryAdapter.queryList('SELECT * FROM PersonEntity',
-        mapper: (Map<String, Object?> row) => PersonEntity(
-            createdAt: row['createdAt'] as String,
-            updatedAt: row['updatedAt'] as String,
-            objectId: row['objectId'] as String,
-            title: row['title'] as String,
-            body: row['body'] as String,
-            id: row['id'] as String));
-  }
+  final UpdateAdapter<PersonEntity> _personEntityUpdateAdapter;
 
   @override
   Future<List<PersonEntity?>> findPersonById(String objectId) async {
@@ -151,8 +153,25 @@ class _$PersonDao extends PersonDao {
   }
 
   @override
+  Future<List<PersonEntity>> findAllPeople() async {
+    return _queryAdapter.queryList('SELECT * FROM PersonEntity',
+        mapper: (Map<String, Object?> row) => PersonEntity(
+            createdAt: row['createdAt'] as String,
+            updatedAt: row['updatedAt'] as String,
+            objectId: row['objectId'] as String,
+            title: row['title'] as String,
+            body: row['body'] as String,
+            id: row['id'] as String));
+  }
+
+  @override
   Future<void> insertPerson(PersonEntity person) async {
     await _personEntityInsertionAdapter.insert(
         person, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updatePerson(PersonEntity entity) async {
+    await _personEntityUpdateAdapter.update(entity, OnConflictStrategy.abort);
   }
 }

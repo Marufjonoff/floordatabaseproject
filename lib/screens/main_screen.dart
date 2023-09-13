@@ -48,13 +48,16 @@ class _MainScreenState extends State<MainScreen> {
           );
         },
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: (){},
         backgroundColor: Colors.blue,
         child: PopupMenuButton<SampleItem>(
           initialValue: selectedMenu,
+          icon: const Icon(Icons.add, size: 28, color: Colors.white),
+          splashRadius: 30,
+          position: PopupMenuPosition.under,
           onSelected: (SampleItem item) {
-
             if(item == SampleItem.itemOne) {
               Navigator.push(context, CupertinoPageRoute(
                   builder: (_) => const AddScreen(objectId: "object1", objectName: "Object 1",)
@@ -69,7 +72,6 @@ class _MainScreenState extends State<MainScreen> {
               ));
             }
           },
-
           itemBuilder: (BuildContext context) => <PopupMenuEntry<SampleItem>>[
             const PopupMenuItem<SampleItem>(
               value: SampleItem.itemOne,
