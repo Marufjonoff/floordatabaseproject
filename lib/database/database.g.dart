@@ -137,12 +137,6 @@ class _$PersonDao extends PersonDao {
   }
 
   @override
-  Future<List<String>> findAllPeopleName() async {
-    return _queryAdapter.queryList('SELECT name FROM PersonEntity',
-        mapper: (Map<String, Object?> row) => row.values.first as String);
-  }
-
-  @override
   Future<List<PersonEntity?>> findPersonById(String objectId) async {
     return _queryAdapter.queryList(
         'SELECT * FROM PersonEntity WHERE objectId = ?1',
