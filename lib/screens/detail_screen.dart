@@ -29,11 +29,11 @@ class _DetailScreenState extends State<DetailScreen> {
     $FloorAppDatabase.databaseBuilder("app_database.db").build().then((value) async {
         objectId = widget.objectId;
         objectName = widget.objectName;
+        database = value;
 
         final list = await _getPerson(objectId, value);
         persons = list;
 
-        database = value;
         setState(() {});
     });
   }
@@ -68,6 +68,18 @@ class _DetailScreenState extends State<DetailScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(objectName),
+        actions: [
+          IconButton(
+            onPressed: () async {
+              await database.personDao.deleteById(objectId);
+              final list = await _getPerson(objectId, database);
+              persons = list;
+
+              setState(() {});
+            },
+            icon: const Icon(Icons.delete, color: Colors.red),
+          )
+        ],
       ),
       body: loading
       ? const Center(child: CircularProgressIndicator())
